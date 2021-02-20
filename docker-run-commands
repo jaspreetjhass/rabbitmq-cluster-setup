@@ -1,0 +1,8 @@
+create custom bridge network
+docker network --driver bridge rabbit-cluster
+run master node
+docker run -v /home/ubuntu/rabbit-config/:/var/lib/rabbitmq/ --mount 'type=bind,source=/home/ubuntu/rabbit-config/rabbitmq.conf,dst=/etc/rabbitmq/rabbitmq.conf' --name rabbitmq1 --hostname rabbitmq1 -p 5672:5672 -p 15672:15672 --rm -d --network rabbit-cluster rabbitmq:3-management
+run slave1
+docker run -v /home/ubuntu/rabbit-config/:/var/lib/rabbitmq/ --mount 'type=bind,source=/home/ubuntu/rabbit-config/rabbitmq.conf,dst=/etc/rabbitmq/rabbitmq.conf' --name rabbitmq2 --hostname rabbitmq2 -p 5674:5672 -p 15674:15672 --rm -d --network rabbit-cluster rabbitmq:3-management
+run slave2
+docker run -v /home/ubuntu/rabbit-config/:/var/lib/rabbitmq/ --mount 'type=bind,source=/home/ubuntu/rabbit-config/rabbitmq.conf,dst=/etc/rabbitmq/rabbitmq.conf' --name rabbitmq3 --hostname rabbitmq3 -p 5676:5672 -p 15676:15672 --rm -d --network rabbit-cluster rabbitmq:3-management
