@@ -1,0 +1,45 @@
+version: "3"
+services:
+  rabbitmq1:
+    container_name: rabbitmq1
+    image: rabbitmq:3-management
+    hostname: rabbitmq1
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - rabbit-cluster
+    volumes:
+      - /home/ubuntu/rabbit-config/:/var/lib/rabbitmq/
+      - /home/ubuntu/rabbit-config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+  rabbitmq2:
+    container_name: rabbitmq2
+    image: rabbitmq:3-management
+    hostname: rabbitmq2
+    ports:
+      - 5674:5672
+      - 15674:15672
+    networks:
+      - rabbit-cluster
+    volumes:
+      - /home/ubuntu/rabbit-config/:/var/lib/rabbitmq/
+      - /home/ubuntu/rabbit-config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    depends_on:
+      - rabbitmq1
+  rabbitmq3:
+    container_name: rabbitmq3
+    image: rabbitmq:3-management
+    hostname: rabbitmq3
+    ports:
+      - 5676:5672
+      - 15676:15672
+    networks:
+      - rabbit-cluster
+    volumes:
+      - /home/ubuntu/rabbit-config/:/var/lib/rabbitmq/
+      - /home/ubuntu/rabbit-config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    depends_on:
+      - rabbitmq1
+
+networks:
+  rabbit-cluster:
