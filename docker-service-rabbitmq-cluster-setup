@@ -1,0 +1,11 @@
+#create overlay network
+docker network create overnet --driver overlay
+
+# create service rabbitmq1
+docker service create --name rabbitmq1 --publish 5672:5672 -p 15672:15672 --mount 'type=bind,source=/home/ubuntu/rabbit-config/rabbitmq.conf,dst=/etc/rabbitmq/rabbitmq.conf' --mount 'type=bind,source=/home/ubuntu/rabbit-config/,dst=/var/lib/rabbitmq/' --hostname rabbitmq1 --network overnet rabbitmq:3-management
+
+# create service rabbitmq2
+docker service create --name rabbitmq2 --publish 5674:5672 -p 15674:15672 --mount 'type=bind,source=/home/ubuntu/rabbit-config/rabbitmq.conf,dst=/etc/rabbitmq/rabbitmq.conf' --mount 'type=bind,source=/home/ubuntu/rabbit-config/,dst=/var/lib/rabbitmq/' --hostname rabbitmq2 --network overnet rabbitmq:3-management
+
+# create service rabbitmq3
+docker service create --name rabbitmq3 --publish 5676:5672 -p 15676:15672 --mount 'type=bind,source=/home/ubuntu/rabbit-config/rabbitmq.conf,dst=/etc/rabbitmq/rabbitmq.conf' --mount 'type=bind,source=/home/ubuntu/rabbit-config/,dst=/var/lib/rabbitmq/' --hostname rabbitmq3 --network overnet rabbitmq:3-management
